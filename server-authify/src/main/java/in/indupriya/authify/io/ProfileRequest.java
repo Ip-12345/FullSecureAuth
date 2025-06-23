@@ -16,4 +16,7 @@ public class ProfileRequest {
     private String email;
     @Size(min=6, message="Password should be atleast 6 characters")
     private String password;
+    @Pattern(regexp = "USER|ADMIN", message = "Role must be either USER or ADMIN")
+    @NotBlank(message = "Role is required")
+    private String role;
 }

@@ -9,10 +9,11 @@ function Login() {
 
   const [isCreateAccount, setIsCreateAccount]=useState(false);
   const [name, setName]=useState("");
+  const [role, setRole] = useState("USER"); 
   const [email, setEmail]=useState("");
   const [password, setPassword]=useState("");
   const [loading, setLoading]=useState(false);
-  const {backendURL, setIsLoggedIn, getUserData}=useContext(AppContext);
+  const {backendURL, setIsLoggedIn, getUserData, setUserRole}=useContext(AppContext);
   const navigate=useNavigate();
 
   const onSubmitHandler= async(e)=>{
@@ -21,7 +22,7 @@ function Login() {
     setLoading(true);
     try{
       if(isCreateAccount){
-        const response=await axios.post(`${backendURL}/register`, {name, email, password})
+        const response=await axios.post(`${backendURL}/register`, {name, email, password, role})
         if(response.status==201){
           navigate('/');
           toast.success('Account created successfully!');
@@ -34,8 +35,14 @@ function Login() {
         const response=await axios.post(`${backendURL}/login`, {email, password})
         if(response.status==200){
           setIsLoggedIn(true);
+          setUserRole(response.data.role);
           getUserData();
-          navigate('/');
+          if (response.data.role === 'ADMIN') {
+            navigate('/admin-dashboard');
+          }else{
+            navigate('/');
+          }
+
           // toast.success('Account created successfully!');
         }
         else{
@@ -57,7 +64,7 @@ function Login() {
         <div style={{position: 'absolute', top:'20px', left:'30px', display:'flex', alignItems:'center'}}>
           <Link to='/' style={{display:'flexx', gap:5, alignItems:'center', fontWeight:'bold', fontSize:'24px', textDecoration:'none'}}>
           <img src={assets.logo} alt='logo' height={32} width={32}/></Link>
-          <span className='fw-bold fs-4 text-light'>Authify</span>
+          <span className='fw-bold fs-4 text-light'>IPVault</span>
         </div> 
 
         <div className='card p-4' style={{maxWidth:'400px', width:'100%'}}>
@@ -65,9 +72,18 @@ function Login() {
           <form onSubmit={onSubmitHandler}>
             {
               isCreateAccount && (
+                <div>
                 <div className='mb-3'>
                   <label className='form-label' htmlFor='fullname'>Full Name</label>
                   <input type='text' id='fullname' className='form-control' placeholder='Enter fullname' required onChange={(e)=>setName(e.target.value)} value={name}/>
+                </div>
+                <div className='mb-3'>
+                  <label className='form-label' htmlFor='role'>Select Role</label>
+                  <select className='form-select' id='role' required onChange={(e)=>setRole(e.target.value)} value={role}>
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                  </select>
+                </div>
                 </div>
               )
             }

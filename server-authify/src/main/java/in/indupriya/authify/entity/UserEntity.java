@@ -30,7 +30,8 @@ public class UserEntity {
     private Long verifyOtpExpiredAt;
     private String resetOtp;
     private Long resetOtpExpiredAt;
-
+    @Column(nullable = false)
+    private String role; //"ADMIN", "USER"
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp createdAt;

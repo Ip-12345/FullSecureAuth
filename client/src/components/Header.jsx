@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { AppContext } from '../context/AppContext'
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
 
+  const navigate=useNavigate();
   const {userData}=useContext(AppContext);
 
   return (
@@ -12,7 +14,7 @@ function Header() {
       <h5 className='fw-semibold'>Hey {userData? userData.name:'Developer'}<span role='img' area-label='wave'> 👋</span></h5>
       <h1 className='fw-bold display-5 mb-3'>Welcome to induopia</h1>
       <p className='text-muted mb-4 fs-5' style={{maxWidth:"500px"}}>Let's start with a quick tour and you can set up the authentication in no time!</p>
-      <button className='btn btn-outline-dark rounded-pill px-4 py-2'>Get Started</button>
+      <button className='btn btn-outline-dark rounded-pill px-4 py-2' onClick={()=>navigate("/login")}>Get Started</button>
     </div>
   )
 }

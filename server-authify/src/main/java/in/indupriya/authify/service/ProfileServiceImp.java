@@ -48,6 +48,7 @@ public class ProfileServiceImp implements ProfileService{
     }
 
     private UserEntity convertToUserEntity(ProfileRequest request){
+        String chosenRole = (request.getRole() == null || request.getRole().isBlank()) ? "USER" : request.getRole();
         return UserEntity.builder()
                 .email(request.getEmail())
                 .userId(UUID.randomUUID().toString())
@@ -58,6 +59,7 @@ public class ProfileServiceImp implements ProfileService{
                 .verifyOtp(null)
                 .verifyOtpExpiredAt(0L)
                 .resetOtp(null)
+                .role(chosenRole.toUpperCase())
                 .build();
     }
 

@@ -5,6 +5,8 @@ import EmailVerify from './pages/EmailVerify'
 import Login from './pages/Login'
 import ResetPassword from './pages/ResetPassword'
 import { Route, Routes } from 'react-router-dom'
+import AdminDashboard from './components/AdminDashboard'
+import AdminRoute from './components/AdminRoute'
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path='/email-verify' element={<EmailVerify/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reset-password' element={<ResetPassword/>}/>
+        <Route path="/admin-dashboard" element={<AdminRoute><AdminDashboard/></AdminRoute>}/>
       </Routes>
     </div>
   )

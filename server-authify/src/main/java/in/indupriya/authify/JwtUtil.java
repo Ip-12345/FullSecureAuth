@@ -20,6 +20,7 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails){
         Map<String, Object> claims=new HashMap<>();
+        claims.put("role", userDetails.getAuthorities().stream().findFirst().get().getAuthority());
         return createToken(claims, userDetails.getUsername());
     }
 
@@ -55,6 +56,8 @@ public class JwtUtil {
     public String extractEmail(String token){
         return extractClaim(token, Claims::getSubject);
     }
+
+    public String extractRole(String token) {return extractClaim(token, claims -> claims.get("role").toString());}
 
     public Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);

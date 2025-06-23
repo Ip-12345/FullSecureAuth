@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import AdminDashboard from './AdminDashboard';
 
 function Menubar() {
   const navigate=useNavigate();
-  const {userData, backendURL, setIsLoggedIn, setUserData}=useContext(AppContext);
+  const {userData, backendURL, setIsLoggedIn, setUserData, userRole}=useContext(AppContext);
   const[dropDownOpen, setDropDownOpen]=useState(false);
   const dropDownRef=useRef(null);
 
@@ -57,7 +58,13 @@ function Menubar() {
     <nav className='navbar bg-white px-5 py-4 d-flex justify-content-between align-items-center'>
       <div className='d-flex align-items-center gap-2 '>
         <img src={assets.logohome} alt='logo' width={32} height={32}/>
-        <span className='fw-bold fs-4 text-dark'>Authify</span>
+        <div className='d-flex justify-content-between align-items-center w-100 gap-4'>
+          <div className='fw-bold fs-4 text-dark'>IPVault</div>
+          <div className='fs-6 text-dark'>An Auth – By Indupriya Bejugam</div>
+        </div>
+
+        {/* <span className='fw-bold fs-4 text-dark'>IPVault</span>
+        <p className='fs-7 text-dark'>An Auth -By Indupriya Bejugam</p> */}
       </div>
 
       {userData?(
@@ -74,6 +81,10 @@ function Menubar() {
               <div className="dropdown-item py-1 px-2" style={{cursor:'pointer'}} onClick={sendVerificationOtp}>
                 Verify email
               </div>
+            )}
+
+            {userRole === 'ADMIN' && (
+              <AdminDashboard/>
             )}
 
             <div className="dropdown-item py-1 px-2 text-danger" style={{cursor:'pointer'}} onClick={handleLogout}>

@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -42,6 +43,7 @@ public class AuthController {
             authenticate(request.getEmail(), request.getPassword());
             final UserDetails userDetails =appUserDetailsService.loadUserByUsername(request.getEmail());
             final String jwtToken=jwtUtil.generateToken(userDetails);
+            final String role=appUserDetailsService.getUserRole(request.getEmail());
             //use cookie to send jwt token securely
             ResponseCookie cookie=ResponseCookie.from("jwt", jwtToken)
                     .httpOnly(true)
@@ -50,7 +52,7 @@ public class AuthController {
                     .sameSite("Strict")
                     .build();
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(new AuthResponse(request.getEmail(), jwtToken));
+                    .body(new AuthResponse(request.getEmail(), jwtToken, role));
         }
         catch (BadCredentialsException ex){
             Map<String, Object> error=new HashMap<>();
@@ -79,6 +81,12 @@ public class AuthController {
     @GetMapping("/is-authenticated")
     public ResponseEntity<Boolean> isAuthenticated(@CurrentSecurityContext(expression = "authentication?.name") String email){
         return ResponseEntity.ok(email!=null);
+    }
+
+    @GetMapping("/admin-dashboard")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String adminDashboard() {
+        return "Welcome Admin!";
     }
 
     @PostMapping("/send-reset-otp")
