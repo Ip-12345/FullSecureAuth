@@ -1,18 +1,17 @@
-# 🔐 Authify
+# 🔐 IPVAULT
 
 > **Secure the Future of Sign-In**
 
-Authify is a lightweight yet powerful authentication system designed to bring enterprise-grade security to your apps without the overhead.
+IpVault is a lightweight yet powerful authentication system designed to bring enterprise-grade security to your apps without the overhead.
 
 ## 🧪 Getting Started
 
-# 🔒 ZAP Security Scan Report – Authify App
+# 🔒 ZAP Security Scan Report – IpVault App
 
 This document summarizes the results of an automated security assessment performed using **OWASP ZAP (v2.16.1)** for the **Authify application**, a full-stack web app using:
 
 - 🔹 React (Frontend) – `localhost:5173`
 - 🔹 Spring Boot (Backend) – `localhost:8080`
-- 🔐 JWT-based Authentication with Email Login
 
 ---
 
@@ -54,7 +53,6 @@ This document summarizes the results of an automated security assessment perform
 
 - No known vulnerabilities were detected in the exposed endpoints of the Authify backend.
 - The app appears to correctly handle authenticated and unauthenticated requests.
-- JWT tokens were properly used and respected during the scan.
 - This scan confirms basic security hygiene for the API layer.
 
 ---
